@@ -1,0 +1,23 @@
+{
+  "name": "microupload",
+  "version": "1.0.0",
+  "description": "A simple encrypted file storage",
+  "scripts": {
+    "start": "reserve",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ArnaudBuchholz/microupload.git"
+  },
+  "author": "Arnaud Buchholz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ArnaudBuchholz/microupload/issues"
+  },
+  "homepage": "https://github.com/ArnaudBuchholz/microupload#readme",
+  "dependencies": {
+    "kaos": "^1.0.0",
+    "reserve": "^1.8.2"
+  }
+}
