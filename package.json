@@ -18,6 +18,10 @@
   "homepage": "https://github.com/ArnaudBuchholz/microupload#readme",
   "dependencies": {
     "kaos": "^1.0.0",
-    "reserve": "^1.8.2"
+    "reserve": "^1.8.2",
+    "uuid": "^8.3.0"
+  },
+  "devDependencies": {
+    "standard": "^14.3.4"
   }
 }
