@@ -1,12 +1,67 @@
 <html>
     <head>
         <title>microupload</title>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.bundle.min.js" integrity="sha384-lZmvU/TzxoIQIOD9yQDEpvxp6wEU32Fy0ckUgOH4EIlMOCdR823rg4+3gWRwnX1M" crossorigin="anonymous"></script>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     </head>
     <body>
-        <span>Key: </span><input type="password" id="key">
-        <br />
-        <input type="file" id="fileToUpload">
-        <button id="upload">Upload</button>
+        <div class="container">
+            <div class="jumbotron">
+                <div style="position: relative; width: 160px; height: 160px; background-color: yellow; text-align: center; font-size: 10rem; border: 16px solid orange; border-radius: 50%;">
+                    <div style="position: absolute; left: -6px; top: -6px; border: 8px solid white; width: 140px; height: 140px; border-radius: 50%;"></div>
+                    <div style="position: absolute; left: 16px; top: -80px;">&#120525;</div>
+                </div>
+                <h1 class="display-4"><i><span style="color: black;">MICRO</span><span style="color: orange;">UPLOAD</span></i></h1>
+                <p class="lead">A simple encrypted file storage service.</p>
+                <hr class="my-4">
+            </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="key-label">Key</span>
+                </div>                
+                <input type="password" class="form-control" id="key" aria-label="Key" aria-describedby="key-label"
+                    placeholder="This key will be used to encrypt / decrypt a file but it is never stored on the server">
+            </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="upload-label">File to upload</span>
+                </div>                
+                <input type="file" class="form-control" id="fileToUpload" aria-label="File to upload" aria-describedby="upload-label">
+                <div class="input-group-append">
+                    <button id="upload" class="btn btn-primary">&#9195; Upload</button>
+                </div>                
+            </div>
+            <div class="input-group mb-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="download-label">File to download</span>
+                </div>                
+                <input type="text" class="form-control" id="fileToDownload" aria-label="File to download" aria-describedby="download-label"
+                    placeholder="000000000-0000-0000-0000-000000000000"
+                >
+                <div class="input-group-append">
+                    <button id="download" class="btn btn-success">&#9196; Download</button>
+                </div>                
+            </div>
+            <div id="uploads">
+                <div id="template" class="d-none">
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">File name</span>
+                        </div>                
+                        <input type="text" readonly class="form-control" value="000000000-0000-0000-0000-000000000000">
+                        <div class="input-group-append">
+                            <span class="input-group-text upload-progress">100%</span>
+                        </div>                
+                    </div>
+                </div>
+            </div>
+            <form id="download-form" target="_blank" action="/download" method="post" class="d-none">
+                <input type="password" name="key" id="download-key"/>
+                <input type="text" name="id" id="download-id"/>
+                <button type="submit">get</button>
+            </form>            
+        </div>
     </body>
     <script src="index.js"></script>
 </html>
