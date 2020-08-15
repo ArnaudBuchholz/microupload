@@ -10,6 +10,9 @@
       "match": "^/upload/end",
       "custom": "./www/upload/end.js"
     }, {
+      "match": "^/download",
+      "custom": "./www/download.js"
+    }, {
       "match": "^/(.*)",
       "file": "./www/$1"
     }]
