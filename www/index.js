@@ -32,14 +32,26 @@ byId('upload').addEventListener('click', async () => {
   const file = fileInput.files[0]
   const name = file.name
   const size = file.size
-  const type = file.type || 'application/octet-stream'
-
-  const info = await post('/upload/start', { 'x-key': key }, { name, size, type })
+  const ui = byId('uploads').appendChild(document.createElement('div'))
+  ui.innerHTML = byId('template').innerHTML
+  ui.querySelector('.input-group-text').innerHTML = name
+  const info = await post('/upload/start', { 'x-key': key }, { name, size })
+  ui.querySelector('.form-control').value = info.id
+  const progress = ui.querySelector('.upload-progress')
   let offset = 0
   while (offset < size) {
+    const percent = Math.floor(100 * offset / size)
+    progress.innerHTML = `${percent}%`
     const length = Math.min(info.chunk, size - offset)
     await post('/upload/chunk', { 'x-upload-id': info.id, 'x-upload-offset': offset }, await read(file, offset, length))
     offset += length
   }
+  progress.innerHTML = '&#9989;'
   await post('/upload/end', { 'x-upload-id': info.id })
+})
+
+byId('download').addEventListener('click', async () => {
+  byId('download-key').value = byId('key').value
+  byId('download-id').value = byId('fileToDownload').value
+  byId('download-form').submit()
 })
