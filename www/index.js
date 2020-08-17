@@ -3,7 +3,8 @@
 const byId = id => document.getElementById(id)
 
 async function post (url, headers, body) {
-  if (body instanceof Object) {
+  if (!headers['content-type']) {
+    headers['content-type'] = 'application/json'
     body = JSON.stringify(body)
   }
   const response = await fetch(url, {
@@ -22,7 +23,7 @@ function read (file, offset, size) {
   const reader = new FileReader()
   return new Promise(resolve => {
     reader.onload = event => resolve(event.target.result)
-    reader.readAsBinaryString(blob)
+    reader.readAsArrayBuffer(blob)
   })
 }
 
@@ -35,19 +36,23 @@ byId('upload').addEventListener('click', async () => {
   const ui = byId('uploads').appendChild(document.createElement('div'))
   ui.innerHTML = byId('template').innerHTML
   ui.querySelector('.input-group-text').innerHTML = name
-  const info = await post('/upload/start', { 'x-key': key }, { name, size })
-  ui.querySelector('.form-control').value = info.id
+  const upload = await post('/upload/start', {}, { key })
+  ui.querySelector('.form-control').value = upload.id
   const progress = ui.querySelector('.upload-progress')
   let offset = 0
   while (offset < size) {
     const percent = Math.floor(100 * offset / size)
     progress.innerHTML = `${percent}%`
-    const length = Math.min(info.chunk, size - offset)
-    await post('/upload/chunk', { 'x-upload-id': info.id, 'x-upload-offset': offset }, await read(file, offset, length))
+    const length = Math.min(upload.chunk, size - offset)
+    await post('/upload/chunk', {
+      'content-type': 'application/octet-stream',
+      'x-upload-id': upload.id,
+      'x-upload-offset': offset
+    }, await read(file, offset, length))
     offset += length
   }
   progress.innerHTML = '&#9989;'
-  await post('/upload/end', { 'x-upload-id': info.id })
+  await post('/upload/end', {}, upload)
 })
 
 byId('download').addEventListener('click', async () => {
