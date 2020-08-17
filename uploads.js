@@ -9,15 +9,14 @@ const { createWriteStream } = require('fs')
 
 const uploads = {}
 
-async function start (file, literalKey) {
+async function start (literalKey) {
   const id = uuidv4()
   uploads[id] = {
-    ...file,
     key: await key(literalKey).salt()
   }
   return {
     id,
-    chunk: 4096
+    chunk: 16 * 1024
   }
 }
 
@@ -33,7 +32,7 @@ async function chunk (id, offset, readableStream) {
   return pipeline(
     readableStream,
     encrypt(file.key, offset),
-    createWriteStream(join(__dirname, 'storage', id), { flags: 'r+', start: offset })
+    createWriteStream(join(__dirname, 'storage', id), { flags: 'a' })
   )
 }
 
