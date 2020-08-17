@@ -4,7 +4,7 @@
   "description": "A simple encrypted file storage",
   "scripts": {
     "start": "reserve",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "standard --fix"
   },
   "repository": {
     "type": "git",
@@ -17,11 +17,17 @@
   },
   "homepage": "https://github.com/ArnaudBuchholz/microupload#readme",
   "dependencies": {
-    "kaos": "^1.0.0",
+    "kaos": "^2.0.0",
     "reserve": "^1.8.2",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
     "standard": "^14.3.4"
+  },
+  "standard": {
+    "globals": [
+      "fetch",
+      "FileReader"
+    ]
   }
 }
