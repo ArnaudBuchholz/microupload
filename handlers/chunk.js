@@ -1,6 +1,6 @@
 'use strict'
 
-const { chunk } = require('../../uploads')
+const { chunk } = require('../uploads')
 
 module.exports = async (request, response) => {
   const id = request.headers['x-upload-id']
