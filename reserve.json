@@ -2,16 +2,16 @@
     "port": 8088,
     "mappings": [{
       "match": "^/upload/start",
-      "custom": "./www/upload/start.js"
+      "custom": "./handlers/start.js"
     }, {
       "match": "^/upload/chunk",
-      "custom": "./www/upload/chunk.js"
+      "custom": "./handlers/chunk.js"
     }, {
       "match": "^/upload/end",
-      "custom": "./www/upload/end.js"
+      "custom": "./handlers/end.js"
     }, {
       "match": "^/download",
-      "custom": "./www/download.js"
+      "custom": "./handlers/download.js"
     }, {
       "match": "^/(.*)",
       "file": "./www/$1"
