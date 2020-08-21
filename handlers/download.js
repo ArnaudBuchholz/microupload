@@ -1,6 +1,6 @@
 'use strict'
 
-const body = require('../node_modules/reserve/body') // https://github.com/ArnaudBuchholz/reserve/issues/16
+const body = require('reserve/body')
 const download = require('../download')
 
 module.exports = async (request, response) => {
