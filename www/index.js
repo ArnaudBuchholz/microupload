@@ -71,3 +71,8 @@ byId('view').addEventListener('click', () => {
   byId('download-view').value = 'view'
   download()
 })
+
+byId('genKey').addEventListener('click', async () => {
+  byId('key').setAttribute('type', 'text')
+  byId('key').value = await post('/key', {}, {})
+})
