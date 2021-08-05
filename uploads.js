@@ -6,6 +6,7 @@ const { key, encrypt } = require('kaos')
 const { join } = require('path')
 const pipeline = promisify(require('stream').pipeline)
 const { createWriteStream } = require('fs')
+const storage = require('./storage')
 
 const uploads = {}
 
@@ -26,13 +27,13 @@ async function chunk (id, offset, readableStream) {
     return pipeline(
       readableStream,
       encrypt(file.key),
-      createWriteStream(join(__dirname, 'storage', id))
+      createWriteStream(join(storage, id))
     )
   }
   return pipeline(
     readableStream,
     encrypt(file.key, offset),
-    createWriteStream(join(__dirname, 'storage', id), { flags: 'a' })
+    createWriteStream(join(storage, id), { flags: 'a' })
   )
 }
 
