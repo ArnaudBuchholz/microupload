@@ -13,6 +13,9 @@
       "match": "^/download",
       "custom": "./handlers/download.js"
     }, {
+      "match": "^/key",
+      "custom": "./handlers/key.js"
+    }, {
       "match": "^/(.*)",
       "file": "./www/$1"
     }]
