@@ -19,7 +19,7 @@
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="key-label">Key</span>
-                </div>                
+                </div>
                 <input type="password" class="form-control" id="key" aria-label="Key" aria-describedby="key-label"
                     placeholder="This key will be used to encrypt / decrypt a file but it is never stored on the server">
             </div>
@@ -30,7 +30,7 @@
                 <input type="file" class="form-control" id="fileToUpload" aria-label="File to upload" aria-describedby="upload-label">
                 <div class="input-group-append">
                     <button id="upload" class="btn btn-primary">&#9195; Upload</button>
-                </div>                
+                </div>
             </div>
             <div class="input-group mb-2">
                 <div class="input-group-prepend">
@@ -39,9 +39,13 @@
                 <input type="text" class="form-control" id="fileToDownload" aria-label="File to download" aria-describedby="download-label"
                     placeholder="000000000-0000-0000-0000-000000000000"
                 >
+                <input type="text" class="form-control" id="fileNameToDownload" aria-label="File name to download" aria-describedby="download-label"
+                    placeholder="microupload.bin"
+                >
                 <div class="input-group-append">
                     <button id="download" class="btn btn-success">&#9196; Download</button>
-                </div>                
+                    <button id="view" class="btn btn-success">&#128065; View</button>
+                </div>
             </div>
             <div id="uploads">
                 <div id="template" class="d-none">
@@ -52,13 +56,15 @@
                         <input type="text" readonly class="form-control" value="000000000-0000-0000-0000-000000000000">
                         <div class="input-group-append">
                             <span class="input-group-text upload-progress">100%</span>
-                        </div>                
+                        </div>
                     </div>
                 </div>
             </div>
             <form id="download-form" target="_blank" action="/download" method="post" class="d-none">
                 <input type="password" name="key" id="download-key"/>
                 <input type="text" name="id" id="download-id"/>
+                <input type="text" name="filename" id="download-filename"/>
+                <input type="text" name="view" id="download-view"/>
                 <button type="submit">get</button>
             </form>            
         </div>
