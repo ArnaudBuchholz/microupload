@@ -13,6 +13,10 @@
       "match": "^/download",
       "custom": "./handlers/download.js"
     }, {
+      "match": "^/view/(.*)",
+      "file": "$1",
+      "custom-file-system": "./viewfs.js"
+    }, {
       "match": "^/key",
       "custom": "./handlers/key.js"
     }, {
