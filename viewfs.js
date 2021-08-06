@@ -3,11 +3,9 @@ const { key, decrypt } = require('kaos')
 const { stat } = require('fs').promises
 const { join } = require('path')
 const { createReadStream } = require('fs')
-const { promisify } = require('util')
-const pipeline = promisify(require('stream').pipeline)
 
 // UID-key.extension
-const pathParser = /([a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12})_(.+)\.[^.]+$/i
+const pathParser = /([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})_(.+)\.[^.]+$/i
 function parsePath (path) {
   const [, uid, encodedLiteralKey] = pathParser.exec(path)
   return { uid, literalKey: decodeURIComponent(encodedLiteralKey) }
