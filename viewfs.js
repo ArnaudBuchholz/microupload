@@ -30,16 +30,10 @@ module.exports = {
     const saltRange = await unsaltedKey.saltRange()
     const fileName = join(storage, uid)
     const saltedKey = await unsaltedKey.salt(createReadStream(fileName, saltRange))
-    if (options) {
-      const byteRange = saltedKey.byteRange(options.start, options.end)
-      return pipeline(
-        createReadStream(fileName, byteRange),
-        decrypt(saltedKey, byteRange)
-      )
+    if (options && options.end) {
+      const byteRange = await saltedKey.byteRange(options.start, options.end)
+      return createReadStream(fileName, byteRange).pipe(decrypt(saltedKey, byteRange))
     }
-    return pipeline(
-      createReadStream(fileName),
-      decrypt(saltedKey)
-    )
+    return createReadStream(fileName).pipe(decrypt(saltedKey))
   }
 }
