@@ -17,7 +17,7 @@ async function start (literalKey) {
   }
   return {
     id,
-    chunk: 16 * 1024
+    chunk: 256 * 1024
   }
 }
 
