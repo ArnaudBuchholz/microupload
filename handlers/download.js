@@ -9,13 +9,9 @@ module.exports = async (request, response) => {
   const key = /key=([^&]*)/.exec(parameters)[1]
   const id = /id=([^&]*)/.exec(parameters)[1]
   const filename = /filename=([^&]*)/.exec(parameters)[1]
-  const downloadOrView = /view=([^&]*)/.exec(parameters)[1]
-  const headers = {
+  response.writeHead(200, {
+    'content-disposition': `attachment; filename=${filename}`,
     'content-type': mime.getType(filename) || 'application/octet-stream'
-  }
-  if (downloadOrView === 'download') {
-    headers['content-disposition'] = `attachment; filename=${filename}`
-  }
-  response.writeHead(200, headers)
+  })
   return download(id, key, response)
 }
