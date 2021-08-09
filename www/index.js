@@ -55,21 +55,18 @@ byId('upload').addEventListener('click', async () => {
   await post('/upload/end', {}, upload)
 })
 
-function download () {
+byId('download').addEventListener('click', () => {
   byId('download-key').value = byId('key').value
   byId('download-id').value = byId('fileToDownload').value
   byId('download-filename').value = byId('fileNameToDownload').value
   byId('download-form').submit()
-}
-
-byId('download').addEventListener('click', () => {
-  byId('download-view').value = 'download'
-  download()
 })
 
 byId('view').addEventListener('click', () => {
-  byId('download-view').value = 'view'
-  download()
+  const fileName = byId('fileNameToDownload').value
+  const extension = /\.[^.]+$/.exec(fileName)[0]
+  const url = `/view/${byId('fileToDownload').value}_${encodeURIComponent(byId('key').value)}${extension}`
+  window.open(url, '_blank')
 })
 
 byId('genKey').addEventListener('click', async () => {
