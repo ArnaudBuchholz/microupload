@@ -25,13 +25,13 @@ module.exports = {
   createReadStream: async (path, options) => {
     const { uid, literalKey } = parsePath(path)
     const unsaltedKey = key(literalKey)
-    const saltRange = await unsaltedKey.saltRange()
     const fileName = join(storage, uid)
-    const saltedKey = await unsaltedKey.salt(createReadStream(fileName, saltRange))
     if (options && options.end) {
+      const saltRange = await unsaltedKey.saltRange()
+      const saltedKey = await unsaltedKey.salt(createReadStream(fileName, saltRange))
       const byteRange = await saltedKey.byteRange(options.start, options.end)
       return createReadStream(fileName, byteRange).pipe(decrypt(saltedKey, byteRange))
     }
-    return createReadStream(fileName).pipe(decrypt(saltedKey))
+    return createReadStream(fileName).pipe(decrypt(unsaltedKey))
   }
 }
