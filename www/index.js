@@ -1,6 +1,7 @@
 'use strict'
 
 const byId = id => document.getElementById(id)
+const title = document.title
 
 async function post (url, headers, body) {
   if (!headers['content-type']) {
@@ -28,31 +29,41 @@ function read (file, offset, size) {
 }
 
 byId('upload').addEventListener('click', async () => {
-  const key = byId('key').value
   const fileInput = byId('fileToUpload')
-  const file = fileInput.files[0]
-  const name = file.name
-  const size = file.size
-  const ui = byId('uploads').appendChild(document.createElement('div'))
-  ui.innerHTML = byId('template').innerHTML
-  ui.querySelector('.input-group-text').innerHTML = name
-  const upload = await post('/upload/start', {}, { key })
-  ui.querySelector('.form-control').value = upload.id
-  const progress = ui.querySelector('.upload-progress')
-  let offset = 0
-  while (offset < size) {
-    const percent = Math.floor(100 * offset / size)
-    progress.innerHTML = `${percent}%`
-    const length = Math.min(upload.chunk, size - offset)
-    await post('/upload/chunk', {
-      'content-type': 'application/octet-stream',
-      'x-upload-id': upload.id,
-      'x-upload-offset': offset
-    }, await read(file, offset, length))
-    offset += length
+  let done = 0
+  for await (const file of fileInput.files) {
+    ++done
+    if (isAutoKey()) {
+      await genKey()
+    }
+    const baseTitle = `${title} ${done}/${fileInput.files.length} `
+    const key = byId('key').value
+    const name = file.name
+    const [, extension] = name.match(/\.([^.]*)$/)
+    const size = file.size
+    const ui = byId('uploads').appendChild(document.createElement('div'))
+    ui.innerHTML = byId('template').innerHTML
+    ui.querySelector('.input-group-text').innerHTML = name
+    const upload = await post('/upload/start', {}, { key })
+    ui.querySelector('.form-control').value = `${upload.id}_${key}.${extension}`
+    const progress = ui.querySelector('.upload-progress')
+    let offset = 0
+    while (offset < size) {
+      const percent = Math.floor(100 * offset / size)
+      progress.innerHTML = `${percent}%`
+      document.title = `${baseTitle} ${percent}%`
+      const length = Math.min(upload.chunk, size - offset)
+      await post('/upload/chunk', {
+        'content-type': 'application/octet-stream',
+        'x-upload-id': upload.id,
+        'x-upload-offset': offset
+      }, await read(file, offset, length))
+      offset += length
+    }
+    progress.innerHTML = '✅'
+    await post('/upload/end', {}, upload)
   }
-  progress.innerHTML = '&#9989;'
-  await post('/upload/end', {}, upload)
+  document.title = `${title} ✅`
 })
 
 byId('download').addEventListener('click', () => {
@@ -69,7 +80,17 @@ byId('view').addEventListener('click', () => {
   window.open(url, '_blank')
 })
 
-byId('genKey').addEventListener('click', async () => {
+const isAutoKey = () => /\bauto-key\b/.exec(location.search)
+
+async function genKey () {
   byId('key').setAttribute('type', 'text')
   byId('key').value = await post('/key', {}, {})
+}
+
+byId('genKey').addEventListener('click', genKey)
+
+window.addEventListener('load', () => {
+  if (isAutoKey()) {
+    genKey()
+  }
 })
