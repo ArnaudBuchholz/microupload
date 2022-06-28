@@ -1,9 +1,9 @@
 {
   "name": "microupload",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A simple encrypted file storage",
   "scripts": {
-    "start": "reserve",
+    "start": "node .",
     "test": "standard --fix"
   },
   "repository": {
@@ -17,14 +17,15 @@
   },
   "homepage": "https://github.com/ArnaudBuchholz/microupload#readme",
   "dependencies": {
+    "dotenv": "^16.0.1",
     "kaos": "^2.0.0",
     "mime": "^3.0.0",
-    "nanoid": "^3.2.0",
-    "reserve": "^1.12.1",
+    "nanoid": "^3.3.4",
+    "reserve": "^1.15.1",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "standard": "^16.0.4"
+    "standard": "^17.0.0"
   },
   "standard": {
     "env": [
