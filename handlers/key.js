@@ -1,8 +1,8 @@
+'use strict'
+
 const { nanoid } = require('nanoid')
+const sendJSON = require('./sendJSON')
 
 module.exports = async (request, response) => {
-  response.writeHead(200, {
-    'content-type': 'application/json'
-  })
-  response.end(JSON.stringify(nanoid(32)))
+  sendJSON(response, nanoid(32))
 }
