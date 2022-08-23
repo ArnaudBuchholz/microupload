@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/ArnaudBuchholz/microupload#readme",
   "dependencies": {
+    "check-disk-space": "^3.3.1",
     "dotenv": "^16.0.1",
     "kaos": "^2.0.0",
     "mime": "^3.0.0",
