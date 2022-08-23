@@ -3,6 +3,9 @@ const { check, log, serve } = require('reserve')
 check({
   port: process.env.PORT || 8080,
   mappings: [{
+    match: '^/space',
+    custom: './handlers/space.js'
+  }, {
     match: '^/upload/start',
     custom: './handlers/start.js'
   }, {
